@@ -1,0 +1,56 @@
+<!-- prescription.component.html -->
+
+<div class="prescription-container">
+  <h2>Prescription</h2>
+
+  <div class="form-group">
+    <label for="pharmacyName">Pharmacy Name:</label>
+    <!-- Add the Pharmacy Name input field here if needed -->
+  </div>
+
+  <div class="form-group">
+    <label for="tcId">TC ID:</label>
+    <input type="text" id="tcId" [(ngModel)]="tcId" />
+    <button (click)="searchPatient()">Search</button>
+  </div>
+
+  <div *ngIf="patientFullName" class="patient-info">
+    <p>Full Name: {{ patientFullName }}</p>
+  </div>
+
+  <!-- Add the search field here -->
+  <div class="form-group">
+    <label for="searchField">Search:</label>
+    <input type="text" id="searchField" [(ngModel)]="searchQuery" />
+    <button (click)="searchFromApi()">Search from API</button>
+  </div>
+
+  <!-- Medicines Search Results -->
+  <div *ngIf="medicines.length > 0" class="medicines-used">
+    <h3>Search Results:</h3>
+    <ul>
+      <li *ngFor="let medicine of medicines" class="medicine-item">
+        {{ medicine.Name || medicine }} <!-- Display Name if it's an object -->
+        <button (click)="addMedicine(medicine)">Add to Card</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Medicines in Prescription -->
+  <div *ngIf="prescriptionMedicines.length > 0" class="medicines-used">
+    <h3>Prescription Medicines:</h3>
+    <ul>
+      <li *ngFor="let medicine of prescriptionMedicines" class="medicine-item">
+        {{ medicine.Name || medicine }} <!-- Display Name if it's an object -->
+        <button (click)="deleteFromPrescription(medicine)">Delete</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="button-group">
+    <button (click)="openPrescriptionModal()">Create Prescription</button>
+  </div>
+</div>
+
+<app-prescription-modal *ngIf="openModal" (sendPrescriptionEvent)="onSendPrescription($event)"></app-prescription-modal>
+
